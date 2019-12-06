@@ -1,0 +1,273 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <base target="_blank" />
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta name="referrer" content="never">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <link rel="shortcut icon" href="https://img9.doubanio.com/view/group/sqxs/public/3bd4fe9af2b65f6.jpg" type="image/x-icon" />
+    <link href="https://spin.js.org/spin.css" type="text/css" rel="stylesheet">
+
+    <title>🎈欢迎来玩，以鹅传鹅！蟹蟹。爱你们～ </title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@2.0.0/dist/vuetify.min.css">
+
+
+<style>
+.loading{
+    pointer-events: none;    
+    position: fixed;
+    top: 50%;
+    left:50%;
+    z-index: 999;
+}
+.update-time{
+	font-size: 0.7rem;
+    color: #81b56e;
+}
+[v-cloak]{
+    display: none;
+}
+a,a *{
+	color: gray;
+	text-decoration: none;
+}
+.v-list-item__title,.time{
+    font-size:0.8rem;
+}
+.v-application--wrap{
+    max-width: 100vw;
+    width: 100vw;
+}
+.author-container{
+    display:inline-flex;
+    flex-direction: row;
+    font-size:0.7rem;
+}
+
+
+
+.card-container .v-card{ 
+    max-width: 100%;
+    flex: 1 1 auto;
+    width:100%;
+}  
+.v-toolbar__title{
+   font-size:1rem;
+   margin: 0 1rem;
+}
+.hit{
+    border-radius: 1rem;
+    margin: 0 0.5rem;
+} 
+section.row1{
+    width:100vw;
+    max-width: 100%;
+}
+
+.card-container,[class^='mygrid']{
+	display: grid;
+	grid-auto-flow: row;
+    max-width: 100%;
+    width:100vw;
+}
+
+.mygrid-1{ grid-template-columns: repeat(1,100%);}
+.mygrid-2{ grid-template-columns: repeat(2,50%);}
+.mygrid-3{ grid-template-columns: repeat(3,33%);}
+.mygrid-4{ grid-template-columns: repeat(4,25%);}
+.mygrid-5{ grid-template-columns: repeat(5,20%);}
+.mygrid-6{ grid-template-columns: repeat(6,16%);}
+.mygrid-7{ grid-template-columns: repeat(7,14%);}
+.mygrid-8{ grid-template-columns: repeat(8,12%);}
+.mygrid-9{ grid-template-columns: repeat(9,11%);}
+.mygrid-10{ grid-template-columns: repeat(10,10%);}
+.mygrid-11{ grid-template-columns: repeat(11,9%);}
+.mygrid-12{ grid-template-columns: repeat(12,8%);}
+.mygrid-13{ grid-template-columns: repeat(13,7%);}
+.mygrid-14{ grid-template-columns: repeat(14,7%);}
+.mygrid-15{ grid-template-columns: repeat(15,6%);}
+.mygrid-16{ grid-template-columns: repeat(16,6%);}
+.mygrid-17{ grid-template-columns: repeat(17,5%);}
+.mygrid-18{ grid-template-columns: repeat(18,5%);}
+.mygrid-19{ grid-template-columns: repeat(19,5%);}
+.mygrid-20{ grid-template-columns: repeat(20,5%);}
+.mygrid-21{ grid-template-columns: repeat(21,4%);}
+.mygrid-22{ grid-template-columns: repeat(22,4%);}
+.mygrid-23{ grid-template-columns: repeat(23,4%);}
+.mygrid-24{ grid-template-columns: repeat(24,4%);}
+.mygrid-25{ grid-template-columns: repeat(25,4%);}
+.mygrid-26{ grid-template-columns: repeat(26,3%);}
+.mygrid-27{ grid-template-columns: repeat(27,3%);}
+.mygrid-28{ grid-template-columns: repeat(28,3%);}
+.mygrid-29{ grid-template-columns: repeat(29,3%);}
+.mygrid-30{ grid-template-columns: repeat(30,3%);}
+
+
+@media (max-width: 1000px) {
+    .card-container,[class^='mygrid']{
+        grid-auto-flow: row;
+        grid-template-columns: auto;
+    }
+    .card-container .v-card,[class^='mygrid']{
+       max-width:100%;
+       flex: 1 1 auto;
+       width: 100vw;
+    }
+
+}
+.douban-title{
+	cursor: pointer;
+}
+
+.editor-container{
+	display: grid;
+	grid-template-columns: 90%;
+	justify-content: center;
+	margin: 2rem 0;
+	/* background: #ff03; */
+	min-height: 50vh;
+}
+.overflow-visible{
+    white-space: initial;
+}
+a{
+    color:gray !important;
+}
+.v-timeline-item__body,body{
+    font-size: 0.8rem;
+}
+
+
+
+</style>
+</head>
+<body>
+    
+<a href="login.html">login </a>
+<a href="/">index</a>
+
+<div id="loading" class="loading"> </div>
+
+<v-app id="app" class="card-container">
+
+<section class="row1 card-container mygrid-3">
+            <v-card  class="mx-auto" v-for="(items,i) in news" :key="news+i">
+                <v-toolbar class="douban-title" color="green" dark >
+                    <!--
+                    <v-app-bar-nav-icon></v-app-bar-nav-icon>
+                    -->
+                    <v-toolbar-title class="white--text">{{items.info.title}}</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <!--
+                    <v-btn icon>
+                        <v-icon>search</v-icon>
+                    </v-btn>
+                    <v-btn icon>
+                        <v-icon>check_circle</v-icon>
+                    </v-btn>
+                    -->
+                </v-toolbar>
+                <v-container>
+                      <v-timeline dense clipped>
+                        <v-timeline-item class="mb-4" color="cyan" icon-color="grey lighten-2" small v-for="(n,j) in items.item.slice(0,10)" :key="'gg'+n.title" >
+                          <v-layout justify-space-between v-if="i==0">
+                                <a :href="n.guid">
+                                    <div class="py-4">
+                                        <h6 :class="`headline font-weight-light mb-4 `" v-text="n.title"></h6>
+                                        <p>{{n.pubdate}}</p>
+                                        <div>{{n.description}}</div>
+                                    </div>
+                                </a> 
+                          </v-layout>
+
+                          <v-card class="elevation-2" v-else>
+                            <v-card-title class="headline">{{n.title}}</v-card-title>
+                            <v-card-text>
+                                <p> {{n.pubdate}}</p>
+                                {{n.description||n.content}}
+                            </v-card-text>
+                          </v-card>
+                        </v-timeline-item>
+                      </v-timeline>
+                </v-container>
+  </v-card>
+        </section>
+
+</v-app>
+
+</body>
+
+
+<script src="https://cdn.bootcss.com/spin.js/2.3.2/spin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.0.0/dist/vuetify.min.js"></script>
+<script src="https://cdn.bootcss.com/ramda/0.26.1/ramda.min.js"></script>
+<script src="https://cdn.bootcss.com/lodash.js/4.17.15/lodash.min.js"></script>
+<script src="https://cdn.bootcss.com/rxjs/6.5.2/rxjs.umd.min.js"></script>
+<script src="https://cdn.bootcss.com/localforage/1.7.3/localforage.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.24.0/locale/zh-cn.js"></script>
+
+<script>
+
+new Vue({
+    el: '#app',
+    vuetify: new Vuetify(),
+    methods:{
+
+    },
+    computed:{ 
+    },
+    created:function(){
+    },
+    data: () => ({
+            news:[
+                    {
+                "info": {
+                  "title": "俄罗斯卫星通讯社 - 快讯和评论-广播、图片、视频、信息图表 | Sputnik China",
+                  "link": null,
+                  "description": "俄罗斯卫星网是一个新生的大型媒体品牌网站，它含有多个现代的多媒体中心，并在世界数十个国家同步进行新闻报道。 俄罗斯卫星网作为新闻提供者在其报道的内容和广播体裁多样化方面具有独特性。在为受众提供全方位多角度国际新闻事件的同时，俄罗斯卫星网言人所未言。",
+                  "language": "zh-cn",
+                  "copyright": "俄罗斯卫星通讯社 - 快讯和评论-广播、图片、视频、信息图表 | Sputnik China"
+                },
+                "item": [
+                  {
+                    "title": "特斯拉汽车在莫斯科环城路上爆炸的视频被拍下",
+                    "link": null,
+                    "null": "http://sputniknews.cn/videoclub/201908111029251574/",
+                    "guid": "http://sputniknews.cn/videoclub/201908111029251574/",
+                    "sputnik:priority": "3",
+                    "pubdate": "Sun, 11 Aug 2019 19:36:00 +0800",
+                    "description": "在网上出现了一段特斯拉汽车在莫斯科环城路上与拖车相撞后爆炸的视频。",
+                    "sputnik:type": "article",
+                    "category": "视频俱乐部",
+                    "enclosure": null
+                  },]}
+            ],
+
+    }),
+})
+
+
+</script>
+
+
+
+<script src="https://unpkg.com/zangodb@latest/dist/zangodb.min.js"></script>
+<!--script src="https://ckeditor.com/assets/libs/ckeditor5/12.3.1/ckeditor.js"></script-->
+<!--script src="https://cdn.ckeditor.com/ckeditor5/12.3.1/classic/ckeditor.js"></script-->
+<script src="https://cdn.ckeditor.com/ckeditor5/12.3.1/balloon-block/ckeditor.js"></script>
+

@@ -1,0 +1,98 @@
+{
+  "name": "master",
+  "commit": {
+    "sha": "df6e15e3ab56ea1237fb2b0a9964fd6aafeb73ca",
+    "node_id": "MDY6Q29tbWl0MTE0Njg1NDA1OmRmNmUxNWUzYWI1NmVhMTIzN2ZiMmIwYTk5NjRmZDZhYWZlYjczY2E=",
+    "commit": {
+      "author": {
+        "name": "Alex Crichton",
+        "email": "alex@alexcrichton.com",
+        "date": "2019-04-11T14:39:45Z"
+      },
+      "committer": {
+        "name": "Alex Crichton",
+        "email": "alex@alexcrichton.com",
+        "date": "2019-04-11T14:39:45Z"
+      },
+      "message": "Bump to 0.2.42",
+      "tree": {
+        "sha": "b16f1adc5f86f634409aece4ecca732e4dec68da",
+        "url": "https://api.github.com/repos/rustwasm/wasm-bindgen/git/trees/b16f1adc5f86f634409aece4ecca732e4dec68da"
+      },
+      "url": "https://api.github.com/repos/rustwasm/wasm-bindgen/git/commits/df6e15e3ab56ea1237fb2b0a9964fd6aafeb73ca",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null
+      }
+    },
+    "url": "https://api.github.com/repos/rustwasm/wasm-bindgen/commits/df6e15e3ab56ea1237fb2b0a9964fd6aafeb73ca",
+    "html_url": "https://github.com/rustwasm/wasm-bindgen/commit/df6e15e3ab56ea1237fb2b0a9964fd6aafeb73ca",
+    "comments_url": "https://api.github.com/repos/rustwasm/wasm-bindgen/commits/df6e15e3ab56ea1237fb2b0a9964fd6aafeb73ca/comments",
+    "author": {
+      "login": "alexcrichton",
+      "id": 64996,
+      "node_id": "MDQ6VXNlcjY0OTk2",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/64996?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/alexcrichton",
+      "html_url": "https://github.com/alexcrichton",
+      "followers_url": "https://api.github.com/users/alexcrichton/followers",
+      "following_url": "https://api.github.com/users/alexcrichton/following{/other_user}",
+      "gists_url": "https://api.github.com/users/alexcrichton/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/alexcrichton/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/alexcrichton/subscriptions",
+      "organizations_url": "https://api.github.com/users/alexcrichton/orgs",
+      "repos_url": "https://api.github.com/users/alexcrichton/repos",
+      "events_url": "https://api.github.com/users/alexcrichton/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/alexcrichton/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "alexcrichton",
+      "id": 64996,
+      "node_id": "MDQ6VXNlcjY0OTk2",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/64996?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/alexcrichton",
+      "html_url": "https://github.com/alexcrichton",
+      "followers_url": "https://api.github.com/users/alexcrichton/followers",
+      "following_url": "https://api.github.com/users/alexcrichton/following{/other_user}",
+      "gists_url": "https://api.github.com/users/alexcrichton/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/alexcrichton/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/alexcrichton/subscriptions",
+      "organizations_url": "https://api.github.com/users/alexcrichton/orgs",
+      "repos_url": "https://api.github.com/users/alexcrichton/repos",
+      "events_url": "https://api.github.com/users/alexcrichton/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/alexcrichton/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "560cb022ca05def0f347142fbe43479c292e647e",
+        "url": "https://api.github.com/repos/rustwasm/wasm-bindgen/commits/560cb022ca05def0f347142fbe43479c292e647e",
+        "html_url": "https://github.com/rustwasm/wasm-bindgen/commit/560cb022ca05def0f347142fbe43479c292e647e"
+      }
+    ]
+  },
+  "_links": {
+    "self": "https://api.github.com/repos/rustwasm/wasm-bindgen/branches/master",
+    "html": "https://github.com/rustwasm/wasm-bindgen/tree/master"
+  },
+  "protected": true,
+  "protection": {
+    "enabled": true,
+    "required_status_checks": {
+      "enforcement_level": "off",
+      "contexts": [
+
+      ]
+    }
+  },
+  "protection_url": "https://api.github.com/repos/rustwasm/wasm-bindgen/branches/master/protection"
+}
+
