@@ -16,10 +16,14 @@ serde = { version = "1.0.103", features = ["derive"] }
 serde_derive = "1.0.103"
 serde_json = "1.0.44"
 hmac-sha256 = "0.1.2"
+stdweb="*"
+bincode = "1.2.0"
+base64 = "0.11.0"
+chrono = "0.4.10"
 
 # https://rustwasm.github.io/wasm-bindgen/api/web_sys/
 [dependencies.web-sys]
-version = "0.3.32"
+version = "0.3.4"
 features = [
   'Headers',
   'Request',

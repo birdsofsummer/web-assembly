@@ -5,7 +5,6 @@ extern crate serde_derive;
 extern crate serde_json;
 
 
-
 use futures::{future, Future};
 use js_sys::Promise;
 use serde::{Deserialize, Serialize};
@@ -29,6 +28,7 @@ use std::collections::BTreeSet;
 use std::time::{Duration, SystemTime,UNIX_EPOCH};
 use std::thread::sleep;
 
+use crate::futures::TryFutureExt;
 
 macro_rules! console_log {
     ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
@@ -142,7 +142,7 @@ impl Tsig{
 
 
 #[wasm_bindgen]
-pub fn get_git() -> Promise {
+pub async fn get_git() -> Result<JsValue, JsValue> {
     let mut opts = RequestInit::new();
     opts.method("GET");
     opts.mode(RequestMode::Cors);
@@ -153,54 +153,16 @@ pub fn get_git() -> Promise {
         .headers()
         .set("Accept", "application/vnd.github.v3+json")
         .unwrap();
-
     let window = web_sys::window().unwrap();
     let request_promise = window.fetch_with_request(&request);
-    parse_json(request_promise)
-}
 
-fn parse_json(request_promise:Promise) -> Promise  {
-    let future = JsFuture::from(request_promise)
-        .and_then(|resp_value| {
-            // `resp_value` is a `Response` object.
-            assert!(resp_value.is_instance_of::<Response>());
-            let resp: Response = resp_value.dyn_into().unwrap();
-            resp.json()
-        })
-        .and_then(|json_value: Promise| {
-            console_log!("cccc");
-            // Convert this other `Promise` into a rust `Future`.
-            JsFuture::from(json_value)
-        })
-        .and_then(|json| {
-            // Use serde to parse the JSON into a struct.
-            let branch_info: Branch = json.into_serde().unwrap();
+    let resp_value = JsFuture::from(request_promise).await?;
+    assert!(resp_value.is_instance_of::<Response>());
+    let resp: Response = resp_value.dyn_into().unwrap();
+    let json = JsFuture::from(resp.json()?).await?;
+    let branch_info: Branch = json.into_serde().unwrap();
+    Ok(JsValue::from_serde(&branch_info).unwrap())
 
-            // Send the `Branch` struct back to JS as an `Object`.
-            future::ok(JsValue::from_serde(&branch_info).unwrap())
-        });
-
-    // Convert this Rust `Future` back into a JS `Promise`.
-    future_to_promise(future)
-}
-
-
-fn parse_json1(request_promise:Promise) -> Promise  {
-    let future = JsFuture::from(request_promise)
-        .and_then(|resp_value| {
-            // `resp_value` is a `Response` object.
-            assert!(resp_value.is_instance_of::<Response>());
-            let resp: Response = resp_value.dyn_into().unwrap();
-            resp.json()
-        })
-        .and_then(|json_value: Promise| {
-            //console_log!("json");
-            JsFuture::from(json_value)
-        })
-        .and_then(|json| {
-            future::ok(json)
-        });
-    future_to_promise(future)
 }
 
 #[wasm_bindgen]
@@ -218,7 +180,7 @@ pub fn get(u:&str) -> Promise {
 
     let window = web_sys::window().unwrap();
     let request_promise = window.fetch_with_request(&request);
-    parse_json1(request_promise)
+    request_promise
 }
 #[wasm_bindgen]
 pub fn post(u:&str,body:JsValue) -> Promise {
@@ -236,7 +198,7 @@ pub fn post(u:&str,body:JsValue) -> Promise {
 
     let window = web_sys::window().unwrap();
     let request_promise = window.fetch_with_request(&request);
-    parse_json1(request_promise)
+    request_promise
 }
 
 
@@ -310,6 +272,11 @@ pub fn add(x:i32,y:i32) -> i32{
 #[wasm_bindgen]
 pub fn qs(q:JsValue)-> Promise {
     let f=future::ok(q );
+    let a=UrlSearchParams::new().unwrap();
+    a.append("x","1");
+    a.append("y","1");
+    //let a=UrlSearchParams::new_with_str_sequence_sequence(&q);
+    console_log!("{:?}",a);
     future_to_promise(f)
 }
 
@@ -368,4 +335,16 @@ pub fn test_tsig1(){
      let mut r=Tsig::new(q);
      r.set_token("1234".to_string());
      console_log!("----{:?}",r);
+}
+
+
+#[macro_use]
+extern crate stdweb;
+
+pub fn main() {
+    stdweb::initialize();
+    js! {
+        console.log("zzzzzzzz")
+    }
+    stdweb::event_loop();
 }

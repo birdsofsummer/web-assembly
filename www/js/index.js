@@ -37,8 +37,14 @@ const main=async ()=>{
       let u="https://api.github.com/repos/rustwasm/wasm-bindgen/branches/master";
       let  c=await a.get(u+"?x=1&y=2",{x:1,y:2})
       let  d=await a.post(u+"?x=1&y=2",JSON.stringify({dd:123}))
-
       let  z=await a.get_git()
+
+      say('ccc',c)
+      say('ccc',d)
+      say('zzz',z)
+      say('zzz',z.commit)
+      let qr=await a.qs({x:11,y:22})
+      say('qqq',qr)
       a.jv(sig)
       a.tsig(tc)
      // a.tsig1(tc1)
