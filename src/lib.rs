@@ -4,7 +4,7 @@ extern crate futures;
 extern crate serde_derive;
 extern crate serde_json;
 
-
+use http::header::HeaderMap;
 use futures::{future, Future};
 use js_sys::Promise;
 use serde::{Deserialize, Serialize};
@@ -14,6 +14,7 @@ use wasm_bindgen_futures::future_to_promise;
 use wasm_bindgen_futures::JsFuture;
 use web_sys::{
     Request, 
+    Headers,
     RequestInit, 
     RequestMode, 
     Response,
@@ -25,18 +26,70 @@ use web_sys::{
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::collections::BTreeSet;
+
 use std::time::{Duration, SystemTime,UNIX_EPOCH};
 use std::thread::sleep;
 
 use crate::futures::TryFutureExt;
+use cookie::{Cookie, CookieJar, SameSite};
+use reqwest::{Client};
+
 
 macro_rules! console_log {
     ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
 }
 
+macro_rules! hash{
+    ($($k:expr=>$v:expr),*)=> {{
+            let mut m=HashMap::new();
+            $(m.insert($k,$v);)*
+            m
+    }}
+}
+
+macro_rules! sum{
+    ($($t:tt),*)=>{{
+        let mut r=0;
+        $(r=r+$t;)*
+        r
+    }}
+}
+
+#[wasm_bindgen]
+pub fn test_macro(){
+    let c=hash![
+        'a' => 0,
+        'b' => 0
+    ];
+    let d=hash!(
+        "a"=>1,
+        "b"=>2
+    );
+
+    let s=sum![1,2,3];
+    let s1=sum!(1,2,3);
+    println!("{:?}",d);
+    println!("{}",s);
+}
+
+
+fn format1(){
+    let name="ddd";
+    let o=format!(r#"
+    impl A for {0}{{
+       fn hello(){{
+           println!("{0} says ....");
+       }}
+    }}
+    "#,name);
+    println!("{}",o);
+}
+
+
 
 #[wasm_bindgen]
 extern "C" {
+    fn alert(s: &str);
     #[wasm_bindgen(js_namespace = console)]
     fn log(s: &str);
 }
@@ -165,23 +218,106 @@ pub async fn get_git() -> Result<JsValue, JsValue> {
 
 }
 
+
+async fn create_client()->Result<(Client), Box<dyn std::error::Error + Send + Sync + 'static>>  {
+       // let ua=pick((&USER_AGENT_LIST).to_vec());
+       // let ip=create_ip();
+        let mut headers = HeaderMap::new();
+        //headers: HeaderMap,
+        let ua="dddd";
+        headers.insert("User-Agent", ua.parse().unwrap());
+        //headers.insert("X-Forwarded-For", ip.as_str().parse().unwrap());
+        //headers.insert("x-real-ip", ip.as_str().parse().unwrap());
+       // let cookie=download1(ip.as_str(),ua.as_str()).await;
+       // headers.insert("Cookie", cookie.unwrap().as_str().parse().unwrap());
+       // println!("{:?}",headers);
+       // println!("{:?}",headers.get("Cookie").unwrap());
+       // reqwest::wasm::request::RequestBuilder
+        let client = reqwest::Client::builder()
+            //.cookie_store(true)
+            //.default_headers(headers)
+            .build()?;
+        Ok(client)
+}
+
+
+
+//#[tokio::main]
 #[wasm_bindgen]
-pub fn get(u:&str) -> Promise {
+pub async fn echo()->JsValue{ 
+//    let uri="https://httpbin.org/post";
+//    let params = vec![("foo", "bar"), ("baz", "quux")];
+//    let mut client=create_client().await.unwrap();
+//    let res =  client
+//            .post(uri)
+//            //.form(&params) 
+//            .send()
+//            .await.unwrap();
+//            //println!("{:?}",res);
+//            //println!("{:?}",res.status());
+//    let body=res.text().await.unwrap();
+//    console_log!("----{:?}",body);
+//    //Ok(JsValue::from_serde(&branch_info).unwrap())
+//    //
+//    //
+    let client = reqwest::Client::new();
+    let res = client.post("http://httpbin.org/post?x=1&y=2")
+        .body("the exact body that is sent")
+        .send()
+        .await.unwrap()
+        .text()
+        .await.unwrap();
+    console_log!("{}",res);
+    JsValue::from_str("dddd")
+}
+
+
+#[derive(Serialize, Deserialize)]
+pub struct DD {
+    #[serde(rename = "x")]
+    x: i64,
+
+    #[serde(rename = "y")]
+    y: i64,
+}
+
+
+#[wasm_bindgen]
+pub fn get(u:&str,q:&JsValue) -> Promise {
+
+    let s=DD{
+        x:1,
+        y:2,
+    };
+    let s1=JsValue::from_serde(&s).unwrap();
+
     let mut opts = RequestInit::new();
     opts.method("GET");
     opts.mode(RequestMode::Cors);
     opts.referrer(u);
     opts.referrer_policy(ReferrerPolicy::NoReferrer);
+    opts.headers(q);
+
     let request = Request::new_with_str_and_init(&u , &opts,).unwrap();
+
+    let params = vec![("foo", "bar"), ("baz", "quux")];
+
+
     request
         .headers()
         .set("Accept", "application/json")
+        //.set("ccc", "application/json")
+        //.set("ddd", "application/json")
         .unwrap();
 
     let window = web_sys::window().unwrap();
     let request_promise = window.fetch_with_request(&request);
     request_promise
 }
+
+
+
+
 #[wasm_bindgen]
 pub fn post(u:&str,body:JsValue) -> Promise {
     let mut opts = RequestInit::new();
@@ -203,7 +339,7 @@ pub fn post(u:&str,body:JsValue) -> Promise {
 
 
 #[wasm_bindgen]
-pub fn hash()  {
+pub fn hash1()  {
     //https://doc.rust-lang.org/std/collections/struct.HashMap.html#method.iter
     let mut book_reviews = HashMap::new();
     book_reviews.insert("a".to_string(),"ccc".to_string());
@@ -264,6 +400,7 @@ pub fn hash()  {
 
 #[wasm_bindgen]
 pub fn add(x:i32,y:i32) -> i32{
+    console_log!("aaaaaaaaaaaa");
     x+y
 }
 
@@ -289,6 +426,11 @@ pub fn jv(q:JsValue) -> JsValue {
         JsValue::from_serde(&s).unwrap()
 }
 
+#[wasm_bindgen]
+pub fn hi(q:&str) {
+    console_log!("hhhh{:?}",q);
+    alert(&format!("Hello, {}!", q));    
+}
 
 //https://rustwasm.github.io/wasm-bindgen/api/web_sys/struct.UrlSearchParams.html
 
@@ -338,6 +480,7 @@ pub fn test_tsig1(){
 }
 
 
+
 #[macro_use]
 extern crate stdweb;
 
@@ -348,3 +491,6 @@ pub fn main() {
     }
     stdweb::event_loop();
 }
+
+
+
