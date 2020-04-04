@@ -5,7 +5,7 @@ const moment=require("moment")
 const cheerio=require("cheerio")
 
 //import index_html_file from './www/index.html'
-const rust = import('../../pkg/fetch1');
+const rust = import('../../pkg/index');
 const say=console.log
 const {say1}=require("./1.js")
 
@@ -32,11 +32,25 @@ const main=async ()=>{
 
       say("R",R)
       let  a=await rust
+      console.log(a)
+      globalThis.a=a
       let  b=a.add(1,2)
+      //a.hi("****")
+      let  u="https://api.github.com/repos/rustwasm/wasm-bindgen/branches/master";
+      let u1="https://httpbin.org/post";
+      let u2="https://httpbin.org/get";
 
-      let u="https://api.github.com/repos/rustwasm/wasm-bindgen/branches/master";
-      let  c=await a.get(u+"?x=1&y=2",{x:1,y:2})
-      let  d=await a.post(u+"?x=1&y=2",JSON.stringify({dd:123}))
+      let  d=await a.post(u1+"?x=212&y=2",JSON.stringify({dd:123}))
+
+      let h= new Headers();
+      h.append('C1', 'image/jpeg');
+      h.append('C2', 'image/jpeg');
+      h.append('C3', 'image/jpeg');
+      let  c=await a.get(u2+"?x=11&y=22",h)
+
+      let h1={x:1,y:2,z:3}
+      let  c1=await a.get(u2+"?x=11&y=22",h1)
+
       let  z=await a.get_git()
 
       say('ccc',c)
