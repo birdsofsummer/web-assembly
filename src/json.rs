@@ -10,8 +10,15 @@ use std::io::prelude::*;
 use std::io::BufReader;
 use std::{thread, time};
 use std::str::FromStr;
+
+
 use std::collections::HashMap;
 use std::hash::Hash;
+use std::collections::HashSet;
+use std::collections::BTreeSet;
+use std::collections::BTreeMap;
+
+
 use std::fmt;
 use std::fmt::Debug;
 use std::fmt::Display;
@@ -22,6 +29,36 @@ extern crate serde;
 #[macro_use]
 extern crate serde_derive;
 extern crate serde_json;
+
+
+// <K:Display+Debug+Eq+ToString+Ord,V:Display+Debug+Eq+ToString+Ord>(v:&Vec<(K,V)>
+fn sort_join<K,V>(
+        v:&Vec<(K,V)>,
+        sep1:&str,
+        sep2:&str,
+    )->String
+    where 
+    K:Display+Debug+Eq+ToString+Ord,
+    V:Display+Debug+Eq+ToString+Ord,
+{
+    let mut b=BTreeMap::new();
+    for (k,v) in v.iter(){
+        b.insert(k,v);
+    }
+    let s:Vec<String>=b.iter()
+    .map(|(k,v)|format!("{}{}{}",k,sep1,v))
+    .collect();
+    s.join(sep2)
+}
+
+fn test_sort_join(){
+    let v:Vec<(&str,i32)>=vec![("z",1),("b",2),("a",1)];
+    let sep1="=";
+    let sep2="&";
+    let v1=sort_join(&v,sep1,sep2);
+    println!("{}",v1);
+}
+
 
 /// struct - > str
 fn to_s<T: serde::Serialize>(d:T)->String{
